@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metropolitan International University - Welcome 2025</title>
+  <!-- Include Google Fonts for Professional Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Include Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Include Confetti.js for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+      font-family: 'Roboto', sans-serif;
+      overflow: hidden;
+      background: #000;
+    }
+
+    canvas#stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* New Year Countdown Section */
+    .new-year-countdown {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 2s ease-in-out;
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .new-year-countdown h2 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: #003366;
+      font-weight: 700;
+      animation: slideIn 1.5s ease-in-out;
+    }
+
+    .new-year-countdown .timer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .new-year-countdown .timer div {
+      text-align: center;
+      background: #003366;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80px;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .new-year-countdown .timer div.animated {
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    .new-year-countdown .timer span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .new-year-countdown .timer p {
+      font-size: 0.9rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Existing Countdown Section */
+    .countdown {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 2s ease-in-out;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .countdown h1 {
+      font-size: 2rem;
+      margin: 0;
+      color: #003366;
+      font-weight: 700;
+      animation: slideIn 1.5s ease-in-out;
+    }
+
+    .countdown h2 {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      color: #555;
+      font-weight: 400;
+      animation: slideIn 2s ease-in-out;
+    }
+
+    .countdown p {
+      font-size: 1rem;
+      margin: 10px 0;
+      color: #777;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+
+    .quote {
+      font-size: 1rem;
+      font-style: italic;
+      margin: 20px 0;
+      color: #555;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    .timer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .timer div {
+      text-align: center;
+      background: #003366;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80px;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timer div.animated {
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    .timer span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .timer p {
+      font-size: 0.9rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Celebration Section */
+    .celebration {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 2s ease-in-out;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .celebration h1 {
+      font-size: 2rem;
+      margin: 0;
+      color: #003366;
+      font-weight: 700;
+      animation: zoomIn 1.5s infinite alternate;
+    }
+
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .social-media {
+      margin-top: 20px;
+    }
+
+    .social-media a {
+      color: #003366;
+      margin: 0 10px;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-media a:hover {
+      color: #00509e;
+    }
+
+    /* Footer Section */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      z-index: 5;
+    }
+
+    footer a {
+      color: #003366;
+      text-decoration: none;
+      margin-left: 10px;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #00509e;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.2);
+      }
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .new-year-countdown h2 {
+        font-size: 1.3rem;
+      }
+
+      .new-year-countdown .timer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .new-year-countdown .timer div {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .new-year-countdown .timer span {
+        font-size: 1.2rem;
+      }
+
+      .new-year-countdown .timer p {
+        font-size: 0.8rem;
+      }
+
+      .countdown h1 {
+        font-size: 1.8rem;
+      }
+
+      .countdown h2 {
+        font-size: 1.3rem;
+      }
+
+      .countdown p {
+        font-size: 0.9rem;
+      }
+
+      .quote {
+        font-size: 0.9rem;
+      }
+
+      .timer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .timer div {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .timer span {
+        font-size: 1.2rem;
+      }
+
+      .timer p {
+        font-size: 0.8rem;
+      }
+
+      .celebration h1 {
+        font-size: 1.8rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for Stars -->
+  <canvas id="stars"></canvas>
+
+  <!-- New Year Countdown Section -->
+  <div class="new-year-countdown">
+    <h2>Countdown to New Year 2025</h2>
+    <div class="timer">
+      <div id="ny-days-box">
+        <span id="ny-days">00</span>
+        <p><i class="fas fa-calendar-day"></i> Days</p>
+      </div>
+      <div id="ny-hours-box">
+        <span id="ny-hours">00</span>
+        <p><i class="fas fa-clock"></i> Hours</p>
+      </div>
+      <div id="ny-minutes-box">
+        <span id="ny-minutes">00</span>
+        <p><i class="fas fa-hourglass-half"></i> Minutes</p>
+      </div>
+      <div id="ny-seconds-box">
+        <span id="ny-seconds">00</span>
+        <p><i class="fas fa-stopwatch"></i> Seconds</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Existing Countdown Section -->
+  <div class="countdown">
+    <h1>Metropolitan International University</h1>
+    <h2>Welcome to 2025</h2>
+    <p class="quote">"The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt</p>
+    <p>Countdown to the Future</p>
+    <div class="timer">
+      <div id="days-box">
+        <span id="days">00</span>
+        <p><i class="fas fa-calendar-day"></i> Days</p>
+      </div>
+      <div id="hours-box">
+        <span id="hours">00</span>
+        <p><i class="fas fa-clock"></i> Hours</p>
+      </div>
+      <div id="minutes-box">
+        <span id="minutes">00</span>
+        <p><i class="fas fa-hourglass-half"></i> Minutes</p>
+      </div>
+      <div id="seconds-box">
+        <span id="seconds">00</span>
+        <p><i class="fas fa-stopwatch"></i> Seconds</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Celebration Section -->
+  <div class="celebration">
+    <h1>Happy New Year 2025!</h1>
+    <div class="social-media">
+      <a href="#" title="Share on Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </div>
+
+  <!-- Confetti Section -->
+  <div class="confetti"></div>
+
+  <!-- Footer Section -->
+  <footer>
+    Made by ahuriradicksondavis@gmail.com
+    <a href="mailto:ahuriradicksondavis@gmail.com" title="Send an email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </footer>
+
+  <!-- Audio for Celebration -->
+  <audio id="celebration-audio" src="celebration-sound.mp3" preload="auto"></audio>
+
+  <script>
+    // Function to create stars
+    function createStars() {
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const stars = [];
+      const starCount = 500; // Reduced number of stars for performance
+
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 1.5,
+          opacity: Math.random(),
+          speed: Math.random() * 0.5,
+        });
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach((star) => {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+          ctx.fill();
+          star.y += star.speed;
+          if (star.y > canvas.height) {
+            star.y = 0;
+          }
+        });
+        requestAnimationFrame(drawStars);
+      }
+
+      drawStars();
+    }
+
+    // Function to trigger confetti
+    function triggerConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // Function to animate countdown boxes
+    function animateCountdownBox(boxId) {
+      const box = document.getElementById(boxId);
+      box.classList.add('animated');
+      setTimeout(() => {
+        box.classList.remove('animated');
+      }, 500);
+    }
+
+    // Countdown timer for New Year
+    function updateNewYearCountdown() {
+      const targetDate = new Date('January 1, 2025 00:00:00').getTime();
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+
+      if (timeLeft <= 0) {
+        // New Year Celebration
+        document.querySelector('.new-year-countdown').style.display = 'none';
+        document.querySelector('.countdown').style.display = 'none';
+        document.querySelector('.celebration').style.display = 'block';
+        triggerConfetti();
+        document.getElementById('celebration-audio').play(); // Play celebration sound
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      // Update New Year countdown values
+      document.getElementById('ny-days').innerText = String(days).padStart(2, '0');
+      document.getElementById('ny-hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('ny-minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('ny-seconds').innerText = String(seconds).padStart(2, '0');
+
+      // Animate the seconds box
+      animateCountdownBox('ny-seconds-box');
+    }
+
+    // Countdown timer for the Future
+    function updateCountdown() {
+      const targetDate = new Date('January 1, 2025 00:00:00').getTime();
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+
+      if (timeLeft <= 0) {
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      // Update countdown values
+      document.getElementById('days').innerText = String(days).padStart(2, '0');
+      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+
+      // Animate the seconds box
+      animateCountdownBox('seconds-box');
+    }
+
+    // Call the functions to create stars and update the countdowns
+    createStars();
+    setInterval(updateNewYearCountdown, 1000);
+    setInterval(updateCountdown, 1000);
+    updateNewYearCountdown(); // Initial call
+    updateCountdown(); // Initial call
+  </script>
+</body>
+  </html>
